@@ -1,38 +1,35 @@
-# Walkthrough - Octavium Core Website Adaptation
+# Walkthrough - Performance & Mobile Fixes
 
-Successfully adapted the Octavium Core landing page to match the new branding, contact details, and project list.
+Successfully optimized the Octavium Core landing page for performance and responsiveness.
 
 ## Changes Made
 
-### Branding & Identity
-- Updated page title to **Octavium Core — Websites, Apps & Automations**.
-- Verified branding colors: `#FF5C00` (orange), `#FF8C42` (secondary), `#FFB347` (accent).
-- Restored `Octavium <span>Core</span>` branding to maintain orange highlight on "Core".
+### 🚀 Performance (Fix 1)
+- **Particles**: Reduced count from 120 to 40 and connection distance to 80px. Added `IntersectionObserver` to pause animation when not visible.
+- **Ambient Orbs**: Removed drift animations from `.orb1, .orb2, .orb3` for lower CPU usage.
+- **3D Tilt Effect**: Disabled the mousemove-based 3D tilt on all cards to prevent scroll lag.
+- **Scroll Handling**: Debounced the scroll listener to fire at most once per frame (16ms) using `requestAnimationFrame`.
+- **Custom Cursor**: Disabled the custom cursor on touch/mobile devices using `matchMedia('(pointer: coarse)')`.
+- **Image Optimization**: Added `decoding="async"` to all carousel images.
+- **Animation Control**: Added logic to pause non-visible animations via `animation-play-state`.
 
-### Contact Details
-- Updated WhatsApp & Phone: `+91 88220 95217`.
-- All `wa.me` links updated with the custom message: `Hi, I want to discuss a project with Octavium Core`.
-- Email updated to `hello@octaviumcore.in`.
-- Location set to `Dibrugarh, Assam, India`.
-- Availability updated to `Mon–Sat, 9AM–7PM IST`.
+### 🛠️ Service Cards (Fix 2)
+- **Hover State Reset**: Fixed the visual bug where the first service card appeared permanently active. All cards now correctly reset to `opacity: 0` for overlays until hovered.
 
-### Section Content
-- **Hero Section**: Updated headline to "We build what your business needs." and sub-text to specify Octavium Core's focus. 
-- **Stats Bar**: Set to `10+ Projects Live`, `3 Sectors Served`, `3 Days Delivery`, and `100% On-Time Rate`.
-- **Services**: Updated cards for Website Development, App Development, and Automation Systems with specific features.
-- **Why Choose Us**: Refined 6 cards with updated copy.
-- **Portfolio**: Updated project list and used `thum.io` for live screenshots. Projects include Northeast Healthcare, White House Homestay, Mahalaxmi Inn, Palm 715, Midtown Retreat, and BizAgent (In Development).
-- **Process**: Updated 5 steps from Discovery Call to Launch & Support (Day 3).
-- **Pricing**: Updated 3 cards (Website, Shopify Store, Automation/App) with correct prices and features.
-- **Testimonials**: Updated 4 client testimonials.
-- **Modal**: Refined the "Start a Project" modal with correct tiles and links.
-
-### Design & Animations
-- Preserved custom cursor, scroll progress, particles, and 3D card tilts.
-- Maintained hero orbit animation and ticker functionality.
-- Kept glassmorphism navbar and scroll logic.
+### 📱 Mobile Layout (Fix 3 & 4)
+- **Process Section**: Implemented a vertical stacked timeline for mobile (≤ 768px) with a left-side gradient line.
+- **Grid Optimizations**: Updated Services, Why, Testimonials, and Pricing grids to single-column on mobile.
+- **Hero Stats**: Redesigned hero stats as a 2x2 grid on mobile for better space utilization.
+- **General Styling**: Adjusted section padding and border-radii for a more cohesive mobile feel.
 
 ## Verification
-- Manual inspection of the HTML source code confirms all text, links, and metadata match the requested adaptations.
-- Verified that no emojis are used as icons in service cards, replaced with CSS animations.
-- Ensuring navbar link order is correct: Services, Works, Process, Pricing, ↗ Octavium.
+- Verified code changes for particle settings and intersection observer.
+- Confirmed CSS media queries for the new vertical process layout.
+- Checked that the active state glow was removed from service cards.
+- Validated that the custom cursor check logic correctly identifies touch devices.
+
+## How to Review
+- [index.html](file:///c:/Users/chitr/Downloads/my websites/OCTAVIUM CORE WEBSITE/index.html)
+- [walkthrough.md](file:///c:/Users/chitr/Downloads/my websites/OCTAVIUM CORE WEBSITE/brain/walkthrough.md)
+- [task.md](file:///c:/Users/chitr/Downloads/my websites/OCTAVIUM CORE WEBSITE/brain/task.md)
+- GitHub Repository [OCTAVIUM-CORE-WEBSITE-](https://github.com/Quickaxis/OCTAVIUM-CORE-WEBSITE-.git) (Updated with Fixes)

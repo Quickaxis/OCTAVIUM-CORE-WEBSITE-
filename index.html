@@ -111,7 +111,8 @@ h1 .grad{background:linear-gradient(90deg,var(--o),var(--o2),var(--o3),var(--o))
 .stagger-children.vis > *:nth-child(3){opacity:1;transform:none;transition-delay:.25s;}
 .stagger-children.vis > *:nth-child(4){opacity:1;transform:none;transition-delay:.35s;}
 .stagger-children.vis > *:nth-child(5){opacity:1;transform:none;transition-delay:.45s;}
-.stagger-children.vis > *:nth-child(6){opacity:1;transform:none;transition-delay:.55s;}
+.stagger-children.vis > *:nth-child(6){opacity:1;transform:none;transition-delay:.45s;}
+.rev:not(.vis), .stagger-children:not(.vis) > * { animation-play-state: paused !important; }
 
 /* ── TICKER ── */
 #ticker{padding:16px 0;overflow:hidden;border-top:1px solid rgba(255,255,255,.05);border-bottom:1px solid rgba(255,255,255,.05);background:rgba(255,92,0,.03);position:relative;z-index:1;}
@@ -131,13 +132,11 @@ section{padding:100px 6%;position:relative;z-index:1;}
 
 /* ── SERVICES ── */
 .srv-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.5px;}
-.srv-card{background:rgba(12,12,12,.7);backdrop-filter:blur(20px);border:1px solid var(--gb);padding:2.8rem 2.4rem;transition:.4s cubic-bezier(.34,1.2,.64,1);position:relative;overflow:hidden;cursor:none;}
-.srv-card:first-child{border-radius:16px 0 0 16px;}
-.srv-card:last-child{border-radius:0 16px 16px 0;}
-/* animated gradient border on hover */
-.srv-card::after{content:'';position:absolute;inset:-1px;border-radius:inherit;background:linear-gradient(135deg,var(--o),var(--o2),transparent,transparent);opacity:0;transition:.4s;z-index:-1;}
-.srv-card:hover{transform:translateY(-8px) scale(1.01);z-index:2;box-shadow:0 30px 80px rgba(255,92,0,.2);}
+.srv-card:hover{transform:translateY(-8px) scale(1.01);z-index:2;box-shadow:0 30px 80px rgba(255,92,0,0.2);}
 .srv-card:hover::after{opacity:1;}
+.srv-card:first-child, .srv-card:last-child { border-radius: 0; }
+.srv-card:first-child { border-radius: 16px 0 0 16px; }
+.srv-card:last-child { border-radius: 0 16px 16px 0; }
 /* glow sweep */
 .srv-card::before{content:'';position:absolute;top:0;left:-100%;width:60%;height:100%;background:linear-gradient(90deg,transparent,rgba(255,92,0,.05),transparent);transition:.7s;pointer-events:none;}
 .srv-card:hover::before{left:150%;}
@@ -203,8 +202,8 @@ section{padding:100px 6%;position:relative;z-index:1;}
 .carousel-wrap{position:relative;perspective:1200px;}
 .carousel-track-outer{overflow:hidden;border-radius:16px;}
 .carousel-track{display:flex;gap:1.5rem;transition:transform .6s cubic-bezier(.4,0,.2,1);will-change:transform;}
-/* 3D tilt on individual cards */
-.wc{flex:0 0 calc(33.333% - 1rem);background:var(--glass);backdrop-filter:blur(16px);border:1px solid var(--gb);border-radius:16px;overflow:hidden;transition:border-color .3s,box-shadow .3s,transform .3s;transform-style:preserve-3d;}
+/* 3D tilt removed for performance */
+.wc{flex:0 0 calc(33.333% - 1rem);background:var(--glass);backdrop-filter:blur(16px);border:1px solid var(--gb);border-radius:16px;overflow:hidden;transition:border-color .3s,box-shadow .3s,transform .3s;}
 .wc:hover{border-color:rgba(255,92,0,.5);box-shadow:0 20px 70px rgba(255,92,0,.18);}
 .wc.active-card{border-color:rgba(255,92,0,.3);}
 /* browser mockup */
@@ -394,19 +393,31 @@ footer p{font-size:.75rem;color:rgba(255,255,255,.28);}
 #spClose{position:absolute;top:1rem;right:1rem;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);color:#fff;width:32px;height:32px;border-radius:8px;cursor:none;font-size:1rem;display:flex;align-items:center;justify-content:center;transition:.25s;}
 #spClose:hover{background:rgba(255,92,0,.15);border-color:rgba(255,92,0,.3);}
 
-@media(max-width:960px){
-  .srv-grid,.why-grid,.price-grid,.tg{grid-template-columns:1fr;}
-  .wc{flex:0 0 calc(85% - .5rem);}
-  .proc-steps{grid-template-columns:1fr 1fr;gap:2rem;}
-  .proc-line{display:none;}
-  .pstep-connector{display:none;}
-  .cl,.cr{padding:40px 28px;}
+@media (max-width: 768px) {
+  section { padding: 70px 5%; }
+  .srv-grid { display: flex; flex-direction: column; gap: 1rem; }
+  .srv-card { border-radius: 12px !important; }
+  .why-grid, .tg, .price-grid { grid-template-columns: 1fr; }
+  .hero-stats { display: grid; grid-template-columns: 1fr 1fr; width: 100%; border-radius: 12px; }
+  .hs { padding: 1rem 1.2rem; }
+  .hs + .hs::before { display: none; }
+  .hs-num { font-size: 1.6rem; }
+  .cl, .cr { padding: 36px 24px; }
+
+  /* PROCESS MOBILE */
+  .proc-header { flex-direction: column; align-items: flex-start; gap: 0.8rem; margin-bottom: 2.5rem; }
+  .proc-header .ss { max-width: 100%; margin-bottom: 0; font-size: 0.88rem; }
+  .proc-steps { display: flex; flex-direction: column; gap: 0; align-items: flex-start; padding-left: 1.5rem; position: relative; }
+  .proc-steps::before { content: ''; position: absolute; left: 2.8rem; top: 0; bottom: 0; width: 2px; background: linear-gradient(to bottom, #FF5C00, rgba(255,92,0,0.1)); }
+  .pstep { display: flex; flex-direction: row; align-items: flex-start; text-align: left; gap: 1.2rem; padding: 0 0 2.5rem 0; width: 100%; }
+  .pstep-top { flex-shrink: 0; margin-bottom: 0; }
+  .pnum { width: 56px; height: 56px; border-radius: 14px; }
+  .pstep h4 { font-size: 0.95rem; margin-bottom: 0.3rem; margin-top: 0.8rem; }
+  .pstep p { font-size: 0.8rem; }
+  .pstep-badge { top: -8px; right: -8px; font-size: 0.55rem; }
+  .proc-line, .proc-line-dot, .pstep-connector { display: none !important; }
 }
-@media(max-width:600px){
-  h1{letter-spacing:-2px;}
-  .wc{flex:0 0 calc(92% - .5rem);}
-  .hero-float{display:none;}
-}
+@media (max-width: 600px) { h1 { letter-spacing: -2px; } .hero-float { display: none; } }
 </style>
 </head>
 <body>
@@ -643,15 +654,15 @@ footer p{font-size:.75rem;color:rgba(255,255,255,.28);}
     <div class="carousel-track-outer">
       <div class="carousel-track" id="carTrack">
         <!-- Card 1 -->
-        <div class="wc"><div class="wt"><div class="wt-screen"><div class="wt-chrome"><div class="wt-dots"><div class="wt-dot r"></div><div class="wt-dot y"></div><div class="wt-dot g"></div></div><div class="wt-url"></div></div><div class="wt-body"><img src="https://image.thum.io/get/width/800/crop/420/noanimate/https://nehealthcarehospitals.com" alt="Northeast Healthcare" loading="lazy" onerror="this.style.display='none'"/><div class="wt-skeleton"><div class="sk-hero"></div><div class="sk-line"></div><div class="sk-line"></div><div class="sk-line"></div><div class="sk-grid"><div class="sk-card"></div><div class="sk-card"></div><div class="sk-card"></div></div></div></div></div><div class="wt-overlay"></div></div><div class="wb"><span class="wtag">Healthcare · Featured</span><h3>Northeast Healthcare & Hospitals</h3><p>10 departments, super-speciality listings, OT/ICU, JSON-LD schema SEO.</p></div><div class="wf"><span class="live"><span class="ldot"></span>Live</span><a class="wlink" href="https://nehealthcarehospitals.com" target="_blank">nehealthcarehospitals.com ↗</a></div></div>
+        <div class="wc"><div class="wt"><div class="wt-screen"><div class="wt-chrome"><div class="wt-dots"><div class="wt-dot r"></div><div class="wt-dot y"></div><div class="wt-dot g"></div></div><div class="wt-url"></div></div><div class="wt-body"><img src="https://image.thum.io/get/width/800/crop/420/noanimate/https://nehealthcarehospitals.com" alt="Northeast Healthcare" loading="lazy" decoding="async" onerror="this.style.display='none'"/><div class="wt-skeleton"><div class="sk-hero"></div><div class="sk-line"></div><div class="sk-line"></div><div class="sk-line"></div><div class="sk-grid"><div class="sk-card"></div><div class="sk-card"></div><div class="sk-card"></div></div></div></div></div><div class="wt-overlay"></div></div><div class="wb"><span class="wtag">Healthcare · Featured</span><h3>Northeast Healthcare & Hospitals</h3><p>10 departments, super-speciality listings, OT/ICU, JSON-LD schema SEO.</p></div><div class="wf"><span class="live"><span class="ldot"></span>Live</span><a class="wlink" href="https://nehealthcarehospitals.com" target="_blank">nehealthcarehospitals.com ↗</a></div></div>
         <!-- Card 2 -->
-        <div class="wc"><div class="wt"><div class="wt-screen"><div class="wt-chrome"><div class="wt-dots"><div class="wt-dot r"></div><div class="wt-dot y"></div><div class="wt-dot g"></div></div><div class="wt-url"></div></div><div class="wt-body"><img src="https://image.thum.io/get/width/800/crop/420/noanimate/https://whitehousehomestays.com" alt="White House" loading="lazy" onerror="this.style.display='none'"/><div class="wt-skeleton"><div class="sk-hero"></div><div class="sk-line"></div><div class="sk-line"></div><div class="sk-line"></div><div class="sk-grid"><div class="sk-card"></div><div class="sk-card"></div><div class="sk-card"></div></div></div></div></div><div class="wt-overlay"></div></div><div class="wb"><span class="wtag">Hospitality</span><h3>The White House Homestay</h3><p>Crossfade hero, WhatsApp booking modal, guest ratings, full SEO. Dibrugarh.</p></div><div class="wf"><span class="live"><span class="ldot"></span>Live</span><a class="wlink" href="https://whitehousehomestays.com" target="_blank">whitehousehomestays.com ↗</a></div></div>
+        <div class="wc"><div class="wt"><div class="wt-screen"><div class="wt-chrome"><div class="wt-dots"><div class="wt-dot r"></div><div class="wt-dot y"></div><div class="wt-dot g"></div></div><div class="wt-url"></div></div><div class="wt-body"><img src="https://image.thum.io/get/width/800/crop/420/noanimate/https://whitehousehomestays.com" alt="White House" loading="lazy" decoding="async" onerror="this.style.display='none'"/><div class="wt-skeleton"><div class="sk-hero"></div><div class="sk-line"></div><div class="sk-line"></div><div class="sk-line"></div><div class="sk-grid"><div class="sk-card"></div><div class="sk-card"></div><div class="sk-card"></div></div></div></div></div><div class="wt-overlay"></div></div><div class="wb"><span class="wtag">Hospitality</span><h3>The White House Homestay</h3><p>Crossfade hero, WhatsApp booking modal, guest ratings, full SEO. Dibrugarh.</p></div><div class="wf"><span class="live"><span class="ldot"></span>Live</span><a class="wlink" href="https://whitehousehomestays.com" target="_blank">whitehousehomestays.com ↗</a></div></div>
         <!-- Card 3 -->
-        <div class="wc"><div class="wt"><div class="wt-screen"><div class="wt-chrome"><div class="wt-dots"><div class="wt-dot r"></div><div class="wt-dot y"></div><div class="wt-dot g"></div></div><div class="wt-url"></div></div><div class="wt-body"><img src="https://image.thum.io/get/width/800/crop/420/noanimate/https://mahalaxmiinn.in" alt="Mahalaxmi" loading="lazy" onerror="this.style.display='none'"/><div class="wt-skeleton"><div class="sk-hero"></div><div class="sk-line"></div><div class="sk-line"></div><div class="sk-line"></div><div class="sk-grid"><div class="sk-card"></div><div class="sk-card"></div><div class="sk-card"></div></div></div></div></div><div class="wt-overlay"></div></div><div class="wb"><span class="wtag">Hospitality</span><h3>The Mahalaxmi Inn</h3><p>Room-specific WhatsApp modals, hero video, 20 animated reviews. GSC verified.</p></div><div class="wf"><span class="live"><span class="ldot"></span>Live</span><a class="wlink" href="https://mahalaxmiinn.in" target="_blank">mahalaxmiinn.in ↗</a></div></div>
+        <div class="wc"><div class="wt"><div class="wt-screen"><div class="wt-chrome"><div class="wt-dots"><div class="wt-dot r"></div><div class="wt-dot y"></div><div class="wt-dot g"></div></div><div class="wt-url"></div></div><div class="wt-body"><img src="https://image.thum.io/get/width/800/crop/420/noanimate/https://mahalaxmiinn.in" alt="Mahalaxmi" loading="lazy" decoding="async" onerror="this.style.display='none'"/><div class="wt-skeleton"><div class="sk-hero"></div><div class="sk-line"></div><div class="sk-line"></div><div class="sk-line"></div><div class="sk-grid"><div class="sk-card"></div><div class="sk-card"></div><div class="sk-card"></div></div></div></div></div><div class="wt-overlay"></div></div><div class="wb"><span class="wtag">Hospitality</span><h3>The Mahalaxmi Inn</h3><p>Room-specific WhatsApp modals, hero video, 20 animated reviews. GSC verified.</p></div><div class="wf"><span class="live"><span class="ldot"></span>Live</span><a class="wlink" href="https://mahalaxmiinn.in" target="_blank">mahalaxmiinn.in ↗</a></div></div>
         <!-- Card 4 -->
-        <div class="wc"><div class="wt"><div class="wt-screen"><div class="wt-chrome"><div class="wt-dots"><div class="wt-dot r"></div><div class="wt-dot y"></div><div class="wt-dot g"></div></div><div class="wt-url"></div></div><div class="wt-body"><img src="https://image.thum.io/get/width/800/crop/420/noanimate/https://palm715.com" alt="Palm 715" loading="lazy" onerror="this.style.display='none'"/><div class="wt-skeleton"><div class="sk-hero"></div><div class="sk-line"></div><div class="sk-line"></div><div class="sk-line"></div><div class="sk-grid"><div class="sk-card"></div><div class="sk-card"></div><div class="sk-card"></div></div></div></div></div><div class="wt-overlay"></div></div><div class="wb"><span class="wtag">Hospitality · Luxury</span><h3>Palm 715</h3><p>Vintage luxury homestay, celebrity visits, unit carousels. Jorhat, Assam.</p></div><div class="wf"><span class="live"><span class="ldot"></span>Live</span><a class="wlink" href="https://palm715.com" target="_blank">palm715.com ↗</a></div></div>
+        <div class="wc"><div class="wt"><div class="wt-screen"><div class="wt-chrome"><div class="wt-dots"><div class="wt-dot r"></div><div class="wt-dot y"></div><div class="wt-dot g"></div></div><div class="wt-url"></div></div><div class="wt-body"><img src="https://image.thum.io/get/width/800/crop/420/noanimate/https://palm715.com" alt="Palm 715" loading="lazy" decoding="async" onerror="this.style.display='none'"/><div class="wt-skeleton"><div class="sk-hero"></div><div class="sk-line"></div><div class="sk-line"></div><div class="sk-line"></div><div class="sk-grid"><div class="sk-card"></div><div class="sk-card"></div><div class="sk-card"></div></div></div></div></div><div class="wt-overlay"></div></div><div class="wb"><span class="wtag">Hospitality · Luxury</span><h3>Palm 715</h3><p>Vintage luxury homestay, celebrity visits, unit carousels. Jorhat, Assam.</p></div><div class="wf"><span class="live"><span class="ldot"></span>Live</span><a class="wlink" href="https://palm715.com" target="_blank">palm715.com ↗</a></div></div>
         <!-- Card 5 -->
-        <div class="wc"><div class="wt"><div class="wt-screen"><div class="wt-chrome"><div class="wt-dots"><div class="wt-dot r"></div><div class="wt-dot y"></div><div class="wt-dot g"></div></div><div class="wt-url"></div></div><div class="wt-body"><img src="https://image.thum.io/get/width/800/crop/420/noanimate/https://midtownretreatdemo.vercel.app" alt="Midtown Retreat" loading="lazy" onerror="this.style.display='none'"/><div class="wt-skeleton"><div class="sk-hero"></div><div class="sk-line"></div><div class="sk-line"></div><div class="sk-line"></div><div class="sk-grid"><div class="sk-card"></div><div class="sk-card"></div><div class="sk-card"></div></div></div></div></div><div class="wt-overlay"></div></div><div class="wb"><span class="wtag">Hospitality</span><h3>Midtown Retreat</h3><p>Glassmorphism navbar, image lightbox, booking modal, CRO-focused layout.</p></div><div class="wf"><span class="live"><span class="ldot"></span>Live</span><a class="wlink" href="https://midtownretreatdemo.vercel.app" target="_blank">midtownretreat.vercel.app ↗</a></div></div>
+        <div class="wc"><div class="wt"><div class="wt-screen"><div class="wt-chrome"><div class="wt-dots"><div class="wt-dot r"></div><div class="wt-dot y"></div><div class="wt-dot g"></div></div><div class="wt-url"></div></div><div class="wt-body"><img src="https://image.thum.io/get/width/800/crop/420/noanimate/https://midtownretreatdemo.vercel.app" alt="Midtown Retreat" loading="lazy" decoding="async" onerror="this.style.display='none'"/><div class="wt-skeleton"><div class="sk-hero"></div><div class="sk-line"></div><div class="sk-line"></div><div class="sk-line"></div><div class="sk-grid"><div class="sk-card"></div><div class="sk-card"></div><div class="sk-card"></div></div></div></div></div><div class="wt-overlay"></div></div><div class="wb"><span class="wtag">Hospitality</span><h3>Midtown Retreat</h3><p>Glassmorphism navbar, image lightbox, booking modal, CRO-focused layout.</p></div><div class="wf"><span class="live"><span class="ldot"></span>Live</span><a class="wlink" href="https://midtownretreatdemo.vercel.app" target="_blank">midtownretreat.vercel.app ↗</a></div></div>
         <!-- Card 6 -->
         <div class="wc"><div class="wt"><div class="wt-screen"><div class="wt-chrome"><div class="wt-dots"><div class="wt-dot r"></div><div class="wt-dot y"></div><div class="wt-dot g"></div></div><div class="wt-url"></div></div><div class="wt-body"><div class="wt-skeleton" style="position:relative;height:100%;background:linear-gradient(135deg,rgba(255,140,66,.07),rgba(0,0,0,.4));"><div class="sk-hero" style="background:linear-gradient(90deg,rgba(255,140,66,.18),rgba(255,140,66,.08));"></div><div class="sk-line"></div><div class="sk-line"></div><div class="sk-grid"><div class="sk-card" style="background:rgba(255,140,66,.1);"></div><div class="sk-card" style="background:rgba(255,140,66,.1);"></div><div class="sk-card" style="background:rgba(255,140,66,.1);"></div></div><div style="position:absolute;bottom:12px;left:50%;transform:translateX(-50%);font-size:.65rem;font-weight:700;color:rgba(255,140,66,.6);letter-spacing:1px;text-transform:uppercase;white-space:nowrap;">In Development</div></div></div></div><div class="wt-overlay"></div></div><div class="wb"><span class="wtag">SaaS · In Progress</span><h3>BizAgent</h3><p>AI-powered business intelligence SaaS. React + Node.js + Gemini AI. Railway + Vercel.</p></div><div class="wf"><span class="dev">⚡ In Development</span><span class="wlink">Octavium SaaS</span></div></div>
       </div>
@@ -756,13 +767,30 @@ footer p{font-size:.75rem;color:rgba(255,255,255,.28);}
 <script>
 /* ── CUSTOM CURSOR ── */
 const cur=document.getElementById('cursor'),ring=document.getElementById('cursor-ring');
-let mx=0,my=0,rx=0,ry=0;
-document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;cur.style.left=mx+'px';cur.style.top=my+'px';});
-(function animRing(){rx+=(mx-rx)*.12;ry+=(my-ry)*.12;ring.style.left=rx+'px';ring.style.top=ry+'px';requestAnimationFrame(animRing);})();
+if (window.matchMedia('(pointer: coarse)').matches) {
+  cur.style.display = 'none';
+  ring.style.display = 'none';
+  document.body.style.cursor = 'auto';
+} else {
+  let mx=0,my=0,rx=0,ry=0;
+  document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;cur.style.left=mx+'px';cur.style.top=my+'px';});
+  (function animRing(){rx+=(mx-rx)*.12;ry+=(my-ry)*.12;ring.style.left=rx+'px';ring.style.top=ry+'px';requestAnimationFrame(animRing);})();
+}
 
 /* ── SCROLL PROGRESS ── */
 const prog=document.getElementById('prog');
-addEventListener('scroll',()=>{const p=scrollY/(document.body.scrollHeight-innerHeight);prog.style.width=(p*100)+'%';});
+let ticking = false;
+window.addEventListener('scroll', () => {
+  if (!ticking) {
+    window.requestAnimationFrame(() => {
+      const p=scrollY/(document.body.scrollHeight-innerHeight);
+      prog.style.width=(p*100)+'%';
+      document.getElementById('nav').classList.toggle('scrolled',scrollY>80);
+      ticking = false;
+    });
+    ticking = true;
+  }
+});
 
 /* ── PARTICLES ── */
 const cv=document.getElementById('bg'),cx2=cv.getContext('2d');
@@ -770,11 +798,14 @@ let W,H,pts=[];
 function rsz(){W=cv.width=innerWidth;H=cv.height=innerHeight;}
 rsz();addEventListener('resize',rsz);
 class Pt{constructor(){this.reset();}reset(){this.x=Math.random()*W;this.y=Math.random()*H;this.r=Math.random()*1.4+.4;this.vx=(Math.random()-.5)*.25;this.vy=(Math.random()-.5)*.25;this.a=Math.random()*.35+.08;this.c=Math.random()>.65?`rgba(255,92,0,${this.a})`:`rgba(255,255,255,${this.a*.35})`;}tick(){this.x+=this.vx;this.y+=this.vy;if(this.x<0||this.x>W||this.y<0||this.y>H)this.reset();}draw(){cx2.beginPath();cx2.arc(this.x,this.y,this.r,0,Math.PI*2);cx2.fillStyle=this.c;cx2.fill();}}
-for(let i=0;i<120;i++)pts.push(new Pt());
-(function anim(){cx2.clearRect(0,0,W,H);for(let i=0;i<pts.length;i++){for(let j=i+1;j<pts.length;j++){const dx=pts[i].x-pts[j].x,dy=pts[i].y-pts[j].y,d=Math.sqrt(dx*dx+dy*dy);if(d<110){cx2.beginPath();cx2.moveTo(pts[i].x,pts[i].y);cx2.lineTo(pts[j].x,pts[j].y);cx2.strokeStyle=`rgba(255,92,0,${.05*(1-d/110)})`;cx2.lineWidth=.5;cx2.stroke();}}pts[i].tick();pts[i].draw();}requestAnimationFrame(anim);})();
+for(let i=0;i<40;i++)pts.push(new Pt());
+let running=true;
+const obsCanvas=new IntersectionObserver(es=>{running=es[0].isIntersecting;if(running)requestAnimationFrame(anim);},{threshold:0.1});
+obsCanvas.observe(cv);
+function anim(){if(!running)return;cx2.clearRect(0,0,W,H);for(let i=0;i<pts.length;i++){for(let j=i+1;j<pts.length;j++){const dx=pts[i].x-pts[j].x,dy=pts[i].y-pts[j].y,d=Math.sqrt(dx*dx+dy*dy);if(d<80){cx2.beginPath();cx2.moveTo(pts[i].x,pts[i].y);cx2.lineTo(pts[j].x,pts[j].y);cx2.strokeStyle=`rgba(255,92,0,${.05*(1-d/80)})`;cx2.lineWidth=.5;cx2.stroke();}}pts[i].tick();pts[i].draw();}requestAnimationFrame(anim);}
 
 /* ── NAV ── */
-addEventListener('scroll',()=>document.getElementById('nav').classList.toggle('scrolled',scrollY>80));
+/* ── NAV UPDATED VIA SCROLL ── */
 
 /* ── TICKER ── */
 const tItems=['Website Development','Shopify Stores','App Development','Automation Systems','WhatsApp Integration','SEO Optimization','Conversion Design','AI Workflows','Hospitality Tech','Healthcare Websites','₹5,000 Websites','3-Day Delivery','Northeast India'];
@@ -820,16 +851,7 @@ document.querySelectorAll('#carTrack .wc').forEach((card,i)=>{
   wt.appendChild(ov);
 });
 
-/* ── 3D CARD TILT ── */
-document.querySelectorAll('.wc,.why-card,.tc').forEach(card=>{
-  card.addEventListener('mousemove',e=>{
-    const r=card.getBoundingClientRect();
-    const x=(e.clientX-r.left)/r.width-.5;
-    const y=(e.clientY-r.top)/r.height-.5;
-    card.style.transform=`perspective(600px) rotateY(${x*10}deg) rotateX(${-y*10}deg) translateY(-6px) scale(1.02)`;
-  });
-  card.addEventListener('mouseleave',()=>{card.style.transform='';});
-});
+/* ── 3D CARD TILT REMOVED ── */
 
 /* ── CAROUSEL ── */
 (function(){
