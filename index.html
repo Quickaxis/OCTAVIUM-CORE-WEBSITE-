@@ -748,14 +748,15 @@
     /* ── SCROLL REVEAL ── */
     .rev {
       opacity: 0;
-      transform: translateY(40px);
-      transition: opacity .7s ease, transform .7s ease;
+      transform: translateY(32px);
+      transition: opacity 0.55s ease, transform 0.55s ease;
     }
 
     .rev.vis {
       opacity: 1;
       transform: translateY(0);
     }
+
 
     .d1 {
       transition-delay: .1s;
@@ -3008,6 +3009,92 @@
         display: block;
       }
 
+      /* PRICING MOBILE FIXES */
+      .pc-feats li {
+        opacity: 1 !important;
+        transform: translateX(0) !important;
+        transition: none !important;
+      }
+
+      .pc {
+        padding: 2rem 1.5rem;
+      }
+
+      .pc-pop {
+        animation: popIn 0.6s 0.2s ease both !important;
+      }
+
+      .price-grid {
+        display: flex;
+        flex-direction: column;
+        gap: 1.2rem;
+      }
+
+      .pc-price {
+        font-size: 2.4rem;
+      }
+
+      .pc-name {
+        font-size: .85rem;
+        margin-bottom: .3rem;
+      }
+
+      .pc-btn {
+        padding: 1rem;
+        font-size: .92rem;
+        margin-top: .5rem;
+      }
+
+      .pc-badge {
+        animation: none;
+        opacity: 1;
+        transform: none;
+      }
+
+      /* STAGGERED REVEAL ON MOBILE */
+      .stagger-children>* {
+        opacity: 0;
+        transform: translateY(24px);
+        transition: opacity 0.5s ease, transform 0.5s ease;
+      }
+
+      .stagger-children.vis>*:nth-child(1) {
+        opacity: 1;
+        transform: none;
+        transition-delay: 0.05s;
+      }
+
+      .stagger-children.vis>*:nth-child(2) {
+        opacity: 1;
+        transform: none;
+        transition-delay: 0.12s;
+      }
+
+      .stagger-children.vis>*:nth-child(3) {
+        opacity: 1;
+        transform: none;
+        transition-delay: 0.19s;
+      }
+
+      .stagger-children.vis>*:nth-child(4) {
+        opacity: 1;
+        transform: none;
+        transition-delay: 0.26s;
+      }
+
+      .stagger-children.vis>*:nth-child(5) {
+        opacity: 1;
+        transform: none;
+        transition-delay: 0.33s;
+      }
+
+      .stagger-children.vis>*:nth-child(6) {
+        opacity: 1;
+        transform: none;
+        transition-delay: 0.40s;
+      }
+
+
       section {
         padding: 70px 5%;
       }
@@ -4193,7 +4280,15 @@
     [...tItems, ...tItems].forEach(t => { tt.innerHTML += `<span class="ti"><span class="tdot"></span>${t}</span>`; });
 
     /* ── REVEAL ── */
-    const obs = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) { e.target.classList.add('vis'); } }), { threshold: .1 });
+    const obs = new IntersectionObserver(es => es.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.classList.add('vis');
+      }
+    }), {
+      threshold: 0,
+      rootMargin: '0px 0px -60px 0px'
+    });
+
     document.querySelectorAll('.rev,.stagger-children').forEach(el => obs.observe(el));
 
     /* ── PROCESS LINE ── */
