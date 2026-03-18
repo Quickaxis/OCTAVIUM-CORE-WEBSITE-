@@ -2898,6 +2898,111 @@
         width: 100%;
       }
 
+      /* Portfolio Mobile Fixes */
+      /* Show 1 card at a time, full width */
+      .wc {
+        flex: 0 0 88vw !important;
+        max-width: 88vw !important;
+        scroll-snap-align: center;
+        border-radius: 18px;
+      }
+
+      /* Taller image on mobile so it's actually visible */
+      .wt {
+        height: 220px !important;
+      }
+
+      /* Bigger body padding */
+      .wb {
+        padding: 1.4rem 1.4rem 1rem;
+      }
+
+      /* Tag — prevent overflow/wrapping */
+      .wtag {
+        font-size: .68rem;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        max-width: 100%;
+        display: inline-block;
+      }
+
+      /* Card title — no wrapping */
+      .wc h3 {
+        font-size: 1rem;
+        font-weight: 800;
+        margin-bottom: .4rem;
+        white-space: normal;
+        line-height: 1.3;
+      }
+
+      /* Description — limit lines */
+    .wc p {
+      font-size: .83rem;
+      line-height: 1.55;
+      display: -webkit-box;
+      -webkit-line-clamp: 3;
+      line-clamp: 3;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+
+
+      /* Footer row */
+      .wf {
+        padding: .75rem 1.4rem;
+        flex-wrap: nowrap;
+        gap: .5rem;
+      }
+
+      .wlink {
+        font-size: .7rem;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        max-width: 55%;
+        color: #FF5C00 !important;
+        font-weight: 600;
+        font-size: .78rem;
+      }
+
+      /* Visit overlay -- hidden on mobile */
+      .wt-visit {
+        opacity: 0 !important;
+      }
+
+      /* First card indent so it centers */
+      #carTrack .wc:first-child {
+        margin-left: 6vw;
+      }
+
+      #carTrack .wc:last-child {
+        margin-right: 6vw;
+      }
+
+      /* Make carousel track gap smaller on mobile */
+      .carousel-track {
+        gap: 1rem;
+      }
+
+      /* Arrow buttons — smaller on mobile */
+      .car-btn {
+        width: 40px;
+        height: 40px;
+        border-radius: 10px;
+      }
+
+      /* Dots — bigger tap targets */
+      .car-dot {
+        width: 10px;
+        height: 10px;
+      }
+
+      .car-dot.active {
+        width: 28px;
+      }
+
+
       .afford-strip strong {
         font-size: 1rem;
         display: block;
@@ -3016,7 +3121,15 @@
       }
     }
 
+    @media (max-width: 480px) {
+      .wc {
+        flex: 0 0 92vw !important;
+        max-width: 92vw !important;
+      }
+    }
+
     @media (max-width: 600px) {
+
       h1 {
         letter-spacing: -2px;
       }
@@ -4127,7 +4240,7 @@
       const dotsEl = document.getElementById('carDots');
       const prevBtn = document.getElementById('carPrev');
       const nextBtn = document.getElementById('carNext');
-      const VISIBLE = () => window.innerWidth <= 600 ? 1 : window.innerWidth <= 960 ? 2 : 3;
+      const VISIBLE = () => window.innerWidth <= 768 ? 1 : window.innerWidth <= 960 ? 2 : 3;
       let cur = 0, total = cards.length, autoTimer;
 
       function getOffset() { const gap = 24; const tw = track.parentElement.offsetWidth; const vis = VISIBLE(); return (tw - gap * (vis - 1)) / vis + gap; }
