@@ -1192,95 +1192,88 @@
     .auto-wrap {
       position: relative;
       width: 56px;
-      height: 48px;
+      height: 56px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
     }
 
-    .auto-node {
-      width: 10px;
-      height: 10px;
+    .auto-hub {
+      position: relative;
+      z-index: 2;
+      width: 36px;
+      height: 36px;
       border-radius: 50%;
-      background: var(--o);
-      position: absolute;
-      animation: autoPulse 2.4s ease-in-out infinite;
+      background: rgba(255, 92, 0, 0.12);
+      border: 1.5px solid rgba(255, 92, 0, 0.4);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      animation: hubPulse 2.5s ease-in-out infinite;
     }
 
-    .auto-node.n1 {
+    @keyframes hubPulse {
+
+      0%,
+      100% {
+        box-shadow: 0 0 0 0 rgba(255, 92, 0, 0.4);
+      }
+
+      50% {
+        box-shadow: 0 0 0 6px rgba(255, 92, 0, 0);
+      }
+    }
+
+    .auto-ring {
+      position: absolute;
+      inset: 0;
+      border-radius: 50%;
+      border: 1.5px dashed rgba(255, 92, 0, 0.25);
+      animation: ringRotate 6s linear infinite;
+    }
+
+    @keyframes ringRotate {
+      from {
+        transform: rotate(0deg);
+      }
+
+      to {
+        transform: rotate(360deg);
+      }
+    }
+
+    .auto-orbit {
+      position: absolute;
+      inset: 0;
+      animation: ringRotate 6s linear infinite;
+    }
+
+    .auto-orb-node {
+      position: absolute;
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .auto-orb-node.n1 {
       top: 0;
-      left: 23px;
+      left: 50%;
+      transform: translateX(-50%);
     }
 
-    .auto-node.n2 {
-      bottom: 0;
-      left: 0;
-      animation-delay: .8s;
+    .auto-orb-node.n2 {
+      bottom: 4px;
+      left: 4px;
     }
 
-    .auto-node.n3 {
-      bottom: 0;
-      right: 0;
-      animation-delay: 1.6s;
+    .auto-orb-node.n3 {
+      bottom: 4px;
+      right: 4px;
     }
 
-    @keyframes autoPulse {
-
-      0%,
-      100% {
-        transform: scale(1);
-        box-shadow: 0 0 0 0 rgba(255, 92, 0, .5);
-      }
-
-      50% {
-        transform: scale(1.3);
-        box-shadow: 0 0 0 7px rgba(255, 92, 0, 0);
-      }
-    }
-
-    .auto-line {
-      position: absolute;
-      background: rgba(255, 92, 0, .3);
-      animation: autoLine 2.4s ease-in-out infinite;
-    }
-
-    .auto-line.l1 {
-      width: 28px;
-      height: 1.5px;
-      top: 5px;
-      left: 15px;
-      transform: rotate(40deg);
-      transform-origin: left;
-      animation-delay: .3s;
-    }
-
-    .auto-line.l2 {
-      width: 28px;
-      height: 1.5px;
-      bottom: 5px;
-      left: 15px;
-      transform: rotate(-40deg);
-      transform-origin: right;
-      animation-delay: 1.1s;
-    }
-
-    .auto-line.l3 {
-      width: 32px;
-      height: 1.5px;
-      bottom: 5px;
-      left: 12px;
-      animation-delay: 1.9s;
-    }
-
-    @keyframes autoLine {
-
-      0%,
-      100% {
-        opacity: .2;
-      }
-
-      50% {
-        opacity: 1;
-        background: var(--o);
-      }
-    }
 
     .srv-badge {
       position: absolute;
@@ -2814,7 +2807,87 @@
       border-color: rgba(255, 92, 0, .3);
     }
 
+    @media (max-width: 960px) {
+
+      .srv-carousel-outer {
+        position: relative;
+        width: 100%;
+      }
+
+      .srv-grid {
+        display: flex !important;
+        flex-direction: row !important;
+        overflow-x: scroll;
+        scroll-snap-type: x mandatory;
+        -webkit-overflow-scrolling: touch;
+        gap: 1rem;
+        padding: 0.5rem 0.5rem 1.2rem;
+        scrollbar-width: none;
+      }
+
+      .srv-grid::-webkit-scrollbar {
+        display: none;
+      }
+
+      .srv-card {
+        flex: 0 0 82vw !important;
+        max-width: 340px;
+        scroll-snap-align: center;
+        border-radius: 20px !important;
+        padding: 2rem 1.6rem;
+        background: rgba(18, 18, 18, 0.85);
+        backdrop-filter: blur(20px);
+        border: 1px solid rgba(255, 92, 0, 0.2);
+        box-shadow: 0 8px 40px rgba(255, 92, 0, 0.08);
+        transition: border-color 0.3s, box-shadow 0.3s;
+      }
+
+      .srv-card:first-child {
+        margin-left: 5vw;
+      }
+
+      .srv-card:last-child {
+        margin-right: 5vw;
+      }
+
+      /* Active card highlight via IntersectionObserver (see JS below) */
+      .srv-card.is-active {
+        border-color: rgba(255, 92, 0, 0.55);
+        box-shadow: 0 12px 50px rgba(255, 92, 0, 0.18);
+      }
+
+      /* Dot indicators */
+      .srv-carousel-dots {
+        display: flex;
+        justify-content: center;
+        gap: 0.5rem;
+        margin-top: 1rem;
+      }
+
+      .sc-dot {
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+        background: rgba(255, 255, 255, 0.2);
+        transition: all 0.3s ease;
+        cursor: pointer;
+      }
+
+      .sc-dot.active {
+        background: #FF5C00;
+        width: 24px;
+        border-radius: 4px;
+      }
+    }
+
+    @media (min-width: 961px) {
+      .srv-carousel-dots {
+        display: none;
+      }
+    }
+
     @media (max-width: 768px) {
+
       .afford-strip {
         flex-direction: column;
         align-items: flex-start;
@@ -2834,15 +2907,7 @@
         padding: 70px 5%;
       }
 
-      .srv-grid {
-        display: flex;
-        flex-direction: column;
-        gap: 1rem;
-      }
 
-      .srv-card {
-        border-radius: 12px !important;
-      }
 
       .why-grid,
       .tg,
@@ -3215,6 +3280,7 @@
             <line x1="68" y1="14" x2="32" y2="46" stroke="#000" stroke-width=".8" opacity=".3" />
             <line x1="26" y1="30" x2="74" y2="30" stroke="#000" stroke-width=".8" opacity=".3" />
             <ellipse cx="50" cy="58" rx="20" ry="14" fill="url(#hg1)" />
+            <line x1="50" y1="44" x2="50" y2="72" stroke="#000" stroke-width=".8" opacity=".25" />
             <path d="M33,60 C22,62 10,55 8,68 C6,78 14,82 12,90" stroke="url(#hg1)" stroke-width="4" fill="none"
               stroke-linecap="round" />
             <path d="M37,66 C28,72 20,70 18,82 C16,90 22,94 20,102" stroke="url(#hg1)" stroke-width="3.5" fill="none"
@@ -3250,92 +3316,123 @@
     <div class="st rev d1">Three things.<br />Done exceptionally well.</div>
     <p class="ss rev d2">We don't spread thin. Three high-impact services. Delivered better than anyone in the region.
     </p>
-    <div class="srv-grid stagger-children">
-      <div class="srv-card">
-        <div class="srv-badge">Most Popular</div>
-        <div class="srv-icon-wrap">
-          <div class="browser">
-            <div class="browser-bar">
-              <div class="b-dot"></div>
-              <div class="b-dot"></div>
-              <div class="b-dot"></div>
-            </div>
-            <div class="browser-content">
-              <div class="b-line"></div>
-              <div class="b-line"></div>
-              <div class="b-line"></div>
+    <div class="srv-carousel-outer">
+      <div class="srv-grid stagger-children">
+        <div class="srv-card">
+          <div class="srv-badge">Most Popular</div>
+          <div class="srv-icon-wrap">
+            <div class="browser">
+              <div class="browser-bar">
+                <div class="b-dot"></div>
+                <div class="b-dot"></div>
+                <div class="b-dot"></div>
+              </div>
+              <div class="browser-content">
+                <div class="b-line"></div>
+                <div class="b-line"></div>
+                <div class="b-line"></div>
+              </div>
             </div>
           </div>
+          <h3>Website Development</h3>
+          <p>Conversion-optimised, SEO-ready websites for hospitality, healthcare, retail, and service businesses. Fast,
+            beautiful, and built to rank.</p>
+          <ul class="srv-list">
+            <li>Landing pages & multi-page sites</li>
+            <li>Booking & enquiry integrations</li>
+            <li>WhatsApp & CRM connections</li>
+            <li>SEO schema & meta setup</li>
+            <li>Google Search Console verified</li>
+          </ul>
         </div>
-        <h3>Website Development</h3>
-        <p>Conversion-optimised, SEO-ready websites for hospitality, healthcare, retail, and service businesses. Fast,
-          beautiful, and built to rank.</p>
-        <ul class="srv-list">
-          <li>Landing pages & multi-page sites</li>
-          <li>Booking & enquiry integrations</li>
-          <li>WhatsApp & CRM connections</li>
-          <li>SEO schema & meta setup</li>
-          <li>Google Search Console verified</li>
-        </ul>
+        <div class="srv-card">
+          <div class="srv-icon-wrap">
+            <div class="phone-wrap">
+              <div class="phone">
+                <div class="ph-notch"></div>
+                <div class="ph-screen">
+                  <div class="ph-bar"></div>
+                  <div class="ph-bar"></div>
+                  <div class="ph-bar"></div>
+                </div>
+              </div>
+              <div class="dashboard">
+                <div class="db-row">
+                  <div class="db-col"></div>
+                  <div class="db-col"></div>
+                  <div class="db-col"></div>
+                </div>
+                <div class="db-row">
+                  <div class="db-col"></div>
+                  <div class="db-col"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <h3>App Development</h3>
+          <p>Web apps and SaaS platforms built with modern stacks. From internal tools to customer-facing products — we
+            ship full-stack.</p>
+          <ul class="srv-list">
+            <li>React + Node.js web apps</li>
+            <li>SaaS dashboards & portals</li>
+            <li>AI-integrated platforms</li>
+            <li>PostgreSQL & cloud backends</li>
+            <li>Vercel / Railway deployment</li>
+          </ul>
+        </div>
+        <div class="srv-card">
+          <div class="srv-icon-wrap">
+            <div class="auto-wrap">
+              <!-- Center hub -->
+              <div class="auto-hub">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#FF5C00" stroke-width="2"
+                  stroke-linecap="round" stroke-linejoin="round">
+                  <circle cx="12" cy="12" r="3" />
+                  <path d="M19.07 4.93a10 10 0 0 1 0 14.14M4.93 4.93a10 10 0 0 0 0 14.14" />
+                </svg>
+              </div>
+              <!-- Orbiting nodes -->
+              <div class="auto-orbit">
+                <div class="auto-orb-node n1">
+                  <svg width="10" height="10" viewBox="0 0 24 24" fill="#FF5C00">
+                    <circle cx="12" cy="12" r="10" />
+                  </svg>
+                </div>
+                <div class="auto-orb-node n2">
+                  <svg width="10" height="10" viewBox="0 0 24 24" fill="#FF8C42">
+                    <circle cx="12" cy="12" r="10" />
+                  </svg>
+                </div>
+                <div class="auto-orb-node n3">
+                  <svg width="10" height="10" viewBox="0 0 24 24" fill="#FFB347">
+                    <circle cx="12" cy="12" r="10" />
+                  </svg>
+                </div>
+              </div>
+              <!-- Connecting ring -->
+              <div class="auto-ring"></div>
+            </div>
+          </div>
+          <h3>Automation Systems</h3>
+          <p>Eliminate repetitive work and connect your tools. Automations that save hours, reduce errors, and scale
+            your ops.</p>
+          <ul class="srv-list">
+            <li>WhatsApp & email automations</li>
+            <li>Booking flow automation</li>
+            <li>CRM & lead routing</li>
+            <li>AI-powered workflows</li>
+            <li>API integrations</li>
+          </ul>
+        </div>
+
       </div>
-      <div class="srv-card">
-        <div class="srv-icon-wrap">
-          <div class="phone-wrap">
-            <div class="phone">
-              <div class="ph-notch"></div>
-              <div class="ph-screen">
-                <div class="ph-bar"></div>
-                <div class="ph-bar"></div>
-                <div class="ph-bar"></div>
-              </div>
-            </div>
-            <div class="dashboard">
-              <div class="db-row">
-                <div class="db-col"></div>
-                <div class="db-col"></div>
-                <div class="db-col"></div>
-              </div>
-              <div class="db-row">
-                <div class="db-col"></div>
-                <div class="db-col"></div>
-              </div>
-            </div>
-          </div>
-        </div>
-        <h3>App Development</h3>
-        <p>Web apps and SaaS platforms built with modern stacks. From internal tools to customer-facing products — we
-          ship full-stack.</p>
-        <ul class="srv-list">
-          <li>React + Node.js web apps</li>
-          <li>SaaS dashboards & portals</li>
-          <li>AI-integrated platforms</li>
-          <li>PostgreSQL & cloud backends</li>
-          <li>Vercel / Railway deployment</li>
-        </ul>
-      </div>
-      <div class="srv-card">
-        <div class="srv-icon-wrap">
-          <div class="auto-wrap">
-            <div class="auto-node n1"></div>
-            <div class="auto-node n2"></div>
-            <div class="auto-node n3"></div>
-            <div class="auto-line l1"></div>
-            <div class="auto-line l2"></div>
-            <div class="auto-line l3"></div>
-          </div>
-        </div>
-        <h3>Automation Systems</h3>
-        <p>Eliminate repetitive work and connect your tools. Automations that save hours, reduce errors, and scale your
-          ops.</p>
-        <ul class="srv-list">
-          <li>WhatsApp & email automations</li>
-          <li>Booking flow automation</li>
-          <li>CRM & lead routing</li>
-          <li>AI-powered workflows</li>
-          <li>API integrations</li>
-        </ul>
+      <div class="srv-carousel-dots">
+        <span class="sc-dot active"></span>
+        <span class="sc-dot"></span>
+        <span class="sc-dot"></span>
       </div>
     </div>
+
   </section>
 
   <!-- WHY -->
@@ -4079,6 +4176,41 @@
 
       buildDots(); goTo(0, false); startAuto();
     })();
+
+    // Services carousel dots
+    const srvGrid = document.querySelector('.srv-grid');
+    const srvCards = document.querySelectorAll('.srv-card');
+    const scDots = document.querySelectorAll('.sc-dot');
+
+    if (srvGrid && window.innerWidth <= 960) {
+      const srvObs = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            const idx = [...srvCards].indexOf(entry.target);
+            srvCards.forEach(c => c.classList.remove('is-active'));
+            entry.target.classList.add('is-active');
+            scDots.forEach(d => d.classList.remove('active'));
+            if (scDots[idx]) scDots[idx].classList.add('active');
+          }
+        });
+      }, {
+        root: srvGrid,
+        threshold: 0.6
+      });
+
+      srvCards.forEach(c => srvObs.observe(c));
+
+      // Dot click navigation
+      scDots.forEach((dot, i) => {
+        dot.addEventListener('click', () => {
+          srvCards[i]?.scrollIntoView({
+            behavior: 'smooth',
+            block: 'nearest',
+            inline: 'center'
+          });
+        });
+      });
+    }
   </script>
 </body>
 
